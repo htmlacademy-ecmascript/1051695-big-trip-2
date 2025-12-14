@@ -29,7 +29,22 @@ export const destinations = [
       },
       {
         'src': 'https://loremflickr.com/248/152?random=10',
-        'description': 'Geneva Lconsectetur adipiscing elit.'
+        'description': 'Amsterdam Lconsectetur adipiscing elit.'
+      },
+    ]
+  },
+  {
+    id: 4,
+    description: 'Paris purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis eu luctus nunc ante ut eu luctus nunc ante ut .',
+    name: 'Paris',
+    pictures: [
+      {
+        'src': 'https://loremflickr.com/248/152?random=67',
+        'description': 'Paris nhkh lafhhI  Ihoj'
+      },
+      {
+        'src': 'https://loremflickr.com/248/152?random=156',
+        'description': 'Paris wre Lconsectetur adipiscing elit.'
       },
     ]
   },

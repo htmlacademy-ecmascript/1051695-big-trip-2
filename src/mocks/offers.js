@@ -76,4 +76,29 @@ export const offers = [
       },
     ]
   },
+  {
+    type: 'flight',
+    offers: [
+      {
+        id: 1,
+        title: 'flight offer 1',
+        price: 320
+      },
+      {
+        id: 2,
+        title: 'flight offer 2',
+        price: 505
+      },
+      {
+        id: 3,
+        title: 'flightflight offer 3',
+        price: 409
+      },
+      {
+        id: 4,
+        title: 'flight offer 4',
+        price: 235
+      },
+    ]
+  },
 ];

@@ -29,5 +29,15 @@ export const points = [
     offers: [3],
     type: 'train',
   },
+  {
+    id: 4,
+    basePrice: 444,
+    dateFrom: '2019-07-15T08:55:56.845Z',
+    dateTo: '2019-07-17T10:22:13.375Z',
+    destination: 4,
+    isFavorite: false,
+    offers: [1,3],
+    type: 'flight',
+  },
 ];
 

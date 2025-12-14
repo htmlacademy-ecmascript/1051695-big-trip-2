@@ -39,10 +39,10 @@ function getTimePeriod(start, end) {
     return `${String(period.toFixed()).padStart(2,'0')} M`;
   }
   if (period < MINUTES_IN_DAY) {
-    return `${String(~~(period / MINUTES_IN_HOUR)).padStart(2,'0')}H ${String((period % MINUTES_IN_HOUR).toFixed()).padStart(2,'0')}M`;
+    return `${String(~~(period / MINUTES_IN_HOUR)).padStart(2,'0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2,'0')}M`;
   }
 
-  return `${~~(period / MINUTES_IN_DAY)}D ${String(~~(period % MINUTES_IN_DAY / MINUTES_IN_HOUR)).padStart(2,'0')}H ${String((period % MINUTES_IN_HOUR).toFixed()).padStart(2,'0')}M`;
+  return `${~~(period / MINUTES_IN_DAY)}D ${String(~~(period % MINUTES_IN_DAY / MINUTES_IN_HOUR)).padStart(2,'0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2,'0')}M`;
 }
 
 export { getRandomArrayElement, humanizeTaskDueDate, dayjs, getTimePeriod, getDefaultPoint, DATE_FORMAT };
