@@ -19,9 +19,9 @@ function createPointTemplate(point, destinations, offers) {
                 <h3 class="event__title">${type} ${pointDestination.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="${dayjs(dateFrom).format(DATE_FORMAT.yearMonthDay)}">${humanizeTaskDueDate(dateFrom, DATE_FORMAT.hourMinute)}</time>
+                    <time class="event__start-time" datetime="${dayjs(dateFrom).format(DATE_FORMAT.dateTimeT)}">${humanizeTaskDueDate(dateFrom, DATE_FORMAT.hourMinute)}</time>
                     &mdash;
-                    <time class="event__end-time" datetime="${dayjs(dateTo).format(DATE_FORMAT.yearMonthDay)}">${humanizeTaskDueDate(dateTo, DATE_FORMAT.hourMinute)}</time>
+                    <time class="event__end-time" datetime="${dayjs(dateTo).format(DATE_FORMAT.dateTimeT)}">${humanizeTaskDueDate(dateTo, DATE_FORMAT.hourMinute)}</time>
                   </p>
                   <p class="event__duration">${getTimePeriod(dateFrom, dateTo)}</p>
                 </div>

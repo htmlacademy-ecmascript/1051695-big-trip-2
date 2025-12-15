@@ -8,7 +8,9 @@ const DATE_FORMAT = {
   monthDay: 'MMM D',
   hourMinute: 'HH:mm',
   yearMonthDay: 'YYYY-MM-DD',
-  dateTime:'DD/MM/YY HH:mm'
+  dateTime:'DD/MM/YY HH:mm',
+  dateTimeT: 'YYYY-MM-DDTHH:mm'
+
 };
 
 const getDefaultPoint = () => ({
