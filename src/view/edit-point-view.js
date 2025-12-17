@@ -25,7 +25,7 @@ function createNewPointTemplate(point, destinations, offers) {
   };
 
   const createDestinationTemplate = (destination) => {
-    if (!destination || destination.id === 0 || destination.description === '') {
+    if (!destination || destination.id === 0 || destination.description === '' || !destination.description) {
       return ('');
     }
 
