@@ -3,13 +3,14 @@ import SortView from '../view/sort-view.js';
 import PointView from '../view/point-view.js';
 import PointListView from '../view/point-list-view.js';
 import EditPointView from '../view/edit-point-view.js';
-import { render, RenderPosition } from '../framework/render.js';
-import { getDefaultPoint } from '../utils.js';
+import { render, /*RenderPosition*/ } from '../framework/render.js';
+// import { getDefaultPoint } from '../utils.js';
 
 
 export default class BoardPresenter {
 
-  #pointListView = new PointListView;
+  #editPointView = new EditPointView();
+  #pointListView = new PointListView();
   #pointModel = null;
   #tripEvents = null;
 
@@ -24,11 +25,10 @@ export default class BoardPresenter {
     const destinations = this.#pointModel.destinations || [];
     const offers = this.#pointModel.offers;
 
-
     render(new SortView(), this.#tripEvents);
     render(this.#pointListView, this.#tripEvents);
-    render(new EditPointView(getDefaultPoint(), destinations, offers), this.#pointListView.element, RenderPosition.AFTERBEGIN);
-    render(new EditPointView(points[3], destinations, offers), this.#pointListView.element);
+    // render(new EditPointView(getDefaultPoint(), destinations, offers), this.#pointListView.element, RenderPosition.AFTERBEGIN);
+    // render(new EditPointView(points[3], destinations, offers), this.#pointListView.element);
 
     for (const point of points) {
       this.#renderEvent(point, destinations, offers);
@@ -37,6 +37,7 @@ export default class BoardPresenter {
 
   #renderEvent(point, destinations, offers) {
     const eventComponent = new PointView(point, destinations, offers);
+    // const editPointComponent = new EditPointView(point, destinations, offers);
 
     render(eventComponent, this.#pointListView.element);
 

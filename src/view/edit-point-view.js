@@ -12,7 +12,7 @@ function createNewPointTemplate(point, destinations, offers) {
   const pointId = point.id || 0;
 
   const createButtonsTemplate = () => {
-    if (pointId) {
+    if (!pointId) {
       return `
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Cancel</button>`;
@@ -129,7 +129,7 @@ function createNewPointTemplate(point, destinations, offers) {
     </li>`;
 }
 
-export default class EditPointView extends AbstractView{
+export default class EditPointView extends AbstractView {
   #point = null;
   #destinations = null;
   #offers = null;
@@ -143,4 +143,8 @@ export default class EditPointView extends AbstractView{
   get template() {
     return createNewPointTemplate(this.#point, this.#destinations, this.#offers);
   }
+
+  // get rollupBtn() {
+  //   return createNewPointTemplate(this.#point, this.#destinations, this.#offers).querySelector('.event__rollup-btn');
+  // }
 }
