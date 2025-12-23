@@ -1,7 +1,8 @@
 
-import { createElement } from '../render.js';
+
 import { getTimePeriod, humanizeTaskDueDate, DATE_FORMAT } from '../utils.js';
 import dayjs from 'dayjs';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createPointTemplate(point, destinations, offers) {
   const { basePrice, isFavorite, dateFrom, dateTo, type } = point;
@@ -50,28 +51,16 @@ function createPointTemplate(point, destinations, offers) {
 }
 
 
-export default class PointView {
+export default class PointView extends AbstractView {
 
   constructor(point, destinations, offers) {
+    super();
     this.point = point;
     this.destinations = destinations;
     this.offers = offers;
   }
 
-  getTemplate() {
+  get template() {
     return createPointTemplate(this.point, this.destinations, this.offers);
-  }
-
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }

@@ -16,7 +16,7 @@ export const points = [
     dateTo: '2019-07-20T13:58:13.375Z',
     destination: 2,
     isFavorite: true,
-    offers: [2,4],
+    offers: [1,4],
     type: 'bus'
   },
   {

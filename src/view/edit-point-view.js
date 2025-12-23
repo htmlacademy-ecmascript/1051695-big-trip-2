@@ -1,5 +1,6 @@
-import { createElement } from '../render.js';
+
 import { humanizeTaskDueDate, DATE_FORMAT } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
@@ -128,28 +129,18 @@ function createNewPointTemplate(point, destinations, offers) {
     </li>`;
 }
 
-export default class EditPointView {
-
+export default class EditPointView extends AbstractView{
+  #point = null;
+  #destinations = null;
+  #offers = null;
   constructor(point, destinations, offers) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
+    super();
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
   }
 
-  getTemplate() {
-    return createNewPointTemplate(this.point, this.destinations, this.offers);
-  }
-
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createNewPointTemplate(this.#point, this.#destinations, this.#offers);
   }
 }
