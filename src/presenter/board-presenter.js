@@ -6,7 +6,6 @@ import { render, replace } from '../framework/render.js';
 // import { RenderPosition, remove } from '../framework/render.js';
 // import { getDefaultPoint } from '../utils.js';
 
-
 export default class BoardPresenter {
 
   #pointListView = new PointListView();
