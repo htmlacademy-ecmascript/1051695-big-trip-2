@@ -1,6 +1,6 @@
 
 
-import { getTimePeriod, humanizeTaskDueDate, DATE_FORMAT } from '../utils.js';
+import { getTimePeriod, humanizeTaskDueDate, DateFormat } from '../utils.js';
 import dayjs from 'dayjs';
 import AbstractView from '../framework/view/abstract-view.js';
 
@@ -13,16 +13,16 @@ function createPointTemplate(point, destinations, offers) {
 
   return `<li class="trip-events__item">
               <div class="event">
-                <time class="event__date" datetime="${dayjs(dateFrom).format(DATE_FORMAT.yearMonthDay)}">${humanizeTaskDueDate(dateFrom, DATE_FORMAT.monthDay)}</time>
+                <time class="event__date" datetime="${dayjs(dateFrom).format(DateFormat.yearMonthDay)}">${humanizeTaskDueDate(dateFrom, DateFormat.monthDay)}</time>
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
                 </div>
                 <h3 class="event__title">${type} ${pointDestination?.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="${dayjs(dateFrom).format(DATE_FORMAT.dateTimeT)}">${humanizeTaskDueDate(dateFrom, DATE_FORMAT.hourMinute)}</time>
+                    <time class="event__start-time" datetime="${dayjs(dateFrom).format(DateFormat.dateTimeT)}">${humanizeTaskDueDate(dateFrom, DateFormat.hourMinute)}</time>
                     &mdash;
-                    <time class="event__end-time" datetime="${dayjs(dateTo).format(DATE_FORMAT.dateTimeT)}">${humanizeTaskDueDate(dateTo, DATE_FORMAT.hourMinute)}</time>
+                    <time class="event__end-time" datetime="${dayjs(dateTo).format(DateFormat.dateTimeT)}">${humanizeTaskDueDate(dateTo, DateFormat.hourMinute)}</time>
                   </p>
                   <p class="event__duration">${getTimePeriod(dateFrom, dateTo)}</p>
                 </div>

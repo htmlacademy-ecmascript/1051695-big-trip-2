@@ -1,5 +1,5 @@
 
-import { humanizeTaskDueDate, DATE_FORMAT } from '../utils.js';
+import { humanizeTaskDueDate, DateFormat } from '../utils.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
@@ -104,10 +104,10 @@ function createNewPointTemplate(point, destinations, offers) {
 
           <div class="event__field-group  event__field-group--time">
             <label class="visually-hidden" for="event-start-time-${pointId}">From</label>
-            <input class="event__input  event__input--time" id="event-start-time-${pointId}" type="text" name="event-start-time" value="${humanizeTaskDueDate(dateFrom, DATE_FORMAT.dateTime)}">
+            <input class="event__input  event__input--time" id="event-start-time-${pointId}" type="text" name="event-start-time" value="${humanizeTaskDueDate(dateFrom, DateFormat.dateTime)}">
             &mdash;
             <label class="visually-hidden" for="event-end-time-${pointId}">To</label>
-            <input class="event__input  event__input--time" id="event-end-time-${pointId}" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, DATE_FORMAT.dateTime)}">
+            <input class="event__input  event__input--time" id="event-end-time-${pointId}" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, DateFormat.dateTime)}">
           </div>
 
           <div class="event__field-group  event__field-group--price">
