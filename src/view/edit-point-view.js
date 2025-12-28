@@ -1,5 +1,6 @@
-import { createElement } from '../render.js';
-import { humanizeTaskDueDate, DATE_FORMAT } from '../utils.js';
+
+import { humanizeTaskDueDate, DateFormat } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
@@ -11,7 +12,7 @@ function createNewPointTemplate(point, destinations, offers) {
   const pointId = point.id || 0;
 
   const createButtonsTemplate = () => {
-    if (pointId) {
+    if (!pointId) {
       return `
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Cancel</button>`;
@@ -103,10 +104,10 @@ function createNewPointTemplate(point, destinations, offers) {
 
           <div class="event__field-group  event__field-group--time">
             <label class="visually-hidden" for="event-start-time-${pointId}">From</label>
-            <input class="event__input  event__input--time" id="event-start-time-${pointId}" type="text" name="event-start-time" value="${humanizeTaskDueDate(dateFrom, DATE_FORMAT.dateTime)}">
+            <input class="event__input  event__input--time" id="event-start-time-${pointId}" type="text" name="event-start-time" value="${humanizeTaskDueDate(dateFrom, DateFormat.dateTime)}">
             &mdash;
             <label class="visually-hidden" for="event-end-time-${pointId}">To</label>
-            <input class="event__input  event__input--time" id="event-end-time-${pointId}" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, DATE_FORMAT.dateTime)}">
+            <input class="event__input  event__input--time" id="event-end-time-${pointId}" type="text" name="event-end-time" value="${humanizeTaskDueDate(dateTo, DateFormat.dateTime)}">
           </div>
 
           <div class="event__field-group  event__field-group--price">
@@ -128,28 +129,38 @@ function createNewPointTemplate(point, destinations, offers) {
     </li>`;
 }
 
-export default class EditPointView {
+export default class EditPointView extends AbstractView {
+  #point = null;
+  #destinations = null;
+  #offers = null;
+  #handleRollupBtnClick = null;
+  #handleFormSubmit = null;
+  constructor(point, destinations, offers, onRollupBtnClick, onFormSubmit) {
+    super();
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
+    this.#handleRollupBtnClick = onRollupBtnClick;
+    this.#handleFormSubmit = onFormSubmit;
 
-  constructor(point, destinations, offers) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
-  }
-
-  getTemplate() {
-    return createNewPointTemplate(this.point, this.destinations, this.offers);
-  }
-
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (this.element.querySelector('.event__rollup-btn')) {
+      this.element.querySelector('.event__rollup-btn')
+        .addEventListener('click', this.#RollupBtnHandler);
     }
-
-    return this.element;
+    this.element.querySelector('form').addEventListener('submit', this.#FormSubmitHandler);
   }
 
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createNewPointTemplate(this.#point, this.#destinations, this.#offers);
   }
+
+  #RollupBtnHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleRollupBtnClick();
+  };
+
+  #FormSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleRollupBtnClick();
+  };
 }

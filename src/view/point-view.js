@@ -1,7 +1,8 @@
 
-import { createElement } from '../render.js';
-import { getTimePeriod, humanizeTaskDueDate, DATE_FORMAT } from '../utils.js';
+
+import { getTimePeriod, humanizeTaskDueDate, DateFormat } from '../utils.js';
 import dayjs from 'dayjs';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createPointTemplate(point, destinations, offers) {
   const { basePrice, isFavorite, dateFrom, dateTo, type } = point;
@@ -12,16 +13,16 @@ function createPointTemplate(point, destinations, offers) {
 
   return `<li class="trip-events__item">
               <div class="event">
-                <time class="event__date" datetime="${dayjs(dateFrom).format(DATE_FORMAT.yearMonthDay)}">${humanizeTaskDueDate(dateFrom, DATE_FORMAT.monthDay)}</time>
+                <time class="event__date" datetime="${dayjs(dateFrom).format(DateFormat.yearMonthDay)}">${humanizeTaskDueDate(dateFrom, DateFormat.monthDay)}</time>
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
                 </div>
-                <h3 class="event__title">${type} ${pointDestination.name}</h3>
+                <h3 class="event__title">${type} ${pointDestination?.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="${dayjs(dateFrom).format(DATE_FORMAT.dateTimeT)}">${humanizeTaskDueDate(dateFrom, DATE_FORMAT.hourMinute)}</time>
+                    <time class="event__start-time" datetime="${dayjs(dateFrom).format(DateFormat.dateTimeT)}">${humanizeTaskDueDate(dateFrom, DateFormat.hourMinute)}</time>
                     &mdash;
-                    <time class="event__end-time" datetime="${dayjs(dateTo).format(DATE_FORMAT.dateTimeT)}">${humanizeTaskDueDate(dateTo, DATE_FORMAT.hourMinute)}</time>
+                    <time class="event__end-time" datetime="${dayjs(dateTo).format(DateFormat.dateTimeT)}">${humanizeTaskDueDate(dateTo, DateFormat.hourMinute)}</time>
                   </p>
                   <p class="event__duration">${getTimePeriod(dateFrom, dateTo)}</p>
                 </div>
@@ -50,28 +51,29 @@ function createPointTemplate(point, destinations, offers) {
 }
 
 
-export default class PointView {
+export default class PointView extends AbstractView {
+  #point = null;
+  #destinations = null;
+  #offers = null;
+  #handleRollupBtnClick = null;
 
-  constructor(point, destinations, offers) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offers = offers;
+  constructor(point, destinations, offers, onRollupBtnClick) {
+    super();
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offers = offers;
+    this.#handleRollupBtnClick = onRollupBtnClick;
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#RollupBtnHandler);
   }
 
-  getTemplate() {
-    return createPointTemplate(this.point, this.destinations, this.offers);
+  get template() {
+    return createPointTemplate(this.#point, this.#destinations, this.#offers);
   }
 
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #RollupBtnHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleRollupBtnClick();
+  };
 }
