@@ -6,7 +6,7 @@ dayjs.extend(utc);
 
 const FilterType = {
   EVERYTHING: 'everything',
-  FUTURE: 'furure',
+  FUTURE: 'future',
   PRESENT: 'present',
   PAST: 'past',
 };
