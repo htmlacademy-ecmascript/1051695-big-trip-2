@@ -25,8 +25,6 @@ export default class BoardPresenter {
 
     render(new SortView(), this.#tripEvents);
     render(this.#pointListView, this.#tripEvents);
-    // this.#renderPoint(getDefaultPoint(), destinations, offers);
-    // this.#renderPoint(points[3], destinations, offers);
 
     for (const point of points) {
       this.#renderPoint(point, destinations, offers);
