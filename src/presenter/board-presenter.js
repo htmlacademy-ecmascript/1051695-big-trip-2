@@ -4,6 +4,7 @@ import PointListView from '../view/point-list-view.js';
 import EditPointView from '../view/edit-point-view.js';
 import { render, replace } from '../framework/render.js';
 // import { RenderPosition, remove } from '../framework/render.js';
+import ListEmptyView from '../view/list-empty-view.js';
 // import { getDefaultPoint } from '../utils.js';
 
 export default class BoardPresenter {
@@ -19,17 +20,19 @@ export default class BoardPresenter {
   }
 
   init() {
-    const points = this.#pointModel.points;
+    const points = this.#pointModel.points || [];
     const destinations = this.#pointModel.destinations || [];
     const offers = this.#pointModel.offers;
 
-    render(new SortView(), this.#tripEvents);
-    render(this.#pointListView, this.#tripEvents);
-    // this.#renderPoint(getDefaultPoint(), destinations, offers);
-    // this.#renderPoint(points[3], destinations, offers);
 
-    for (const point of points) {
-      this.#renderPoint(point, destinations, offers);
+    if (points.length) {
+      render(new SortView(), this.#tripEvents);
+      render(this.#pointListView, this.#tripEvents);
+      for (const point of points) {
+        this.#renderPoint(point, destinations, offers);
+      }
+    } else {
+      render(new ListEmptyView(), this.#tripEvents);
     }
   }
 
@@ -45,11 +48,11 @@ export default class BoardPresenter {
         document.removeEventListener('keydown', onEscKeydown);
       }
     };
-    function onRollupBtnFormClick () {
+    function onRollupBtnFormClick() {
       replace(pointComponent, editPointComponent);
       document.removeEventListener('keydown', onEscKeydown);
     }
-    function onRollupBtnPointClick () {
+    function onRollupBtnPointClick() {
       replace(editPointComponent, pointComponent);
       document.addEventListener('keydown', onEscKeydown);
     }
