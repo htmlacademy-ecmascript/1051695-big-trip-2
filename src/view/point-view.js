@@ -1,6 +1,7 @@
 
 
-import { getTimePeriod, humanizeTaskDueDate, DateFormat } from '../utils.js';
+import { getTimePeriod, humanizeTaskDueDate} from '../utils/utils.js';
+import { DateFormat } from '../consts.js';
 import dayjs from 'dayjs';
 import AbstractView from '../framework/view/abstract-view.js';
 

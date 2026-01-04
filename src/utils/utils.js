@@ -1,17 +1,6 @@
 import dayjs from 'dayjs';
+import { MILISECONDS_IN_MINUTE, MINUTES_IN_DAY, MINUTES_IN_HOUR } from '../consts';
 
-const MILISECONDS_IN_MINUTE = 60000;
-const MINUTES_IN_HOUR = 60;
-const MINUTES_IN_DAY = 1440;
-
-const DateFormat = {
-  monthDay: 'MMM D',
-  hourMinute: 'HH:mm',
-  yearMonthDay: 'YYYY-MM-DD',
-  dateTime:'DD/MM/YY HH:mm',
-  dateTimeT: 'YYYY-MM-DDTHH:mm'
-
-};
 
 const getDefaultPoint = () => ({
   basePrice: 0,
@@ -46,4 +35,4 @@ function getTimePeriod(start, end) {
   return `${String(~~(period / MINUTES_IN_DAY)).padStart(2,'0')}D ${String(~~(period % MINUTES_IN_DAY / MINUTES_IN_HOUR)).padStart(2,'0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2,'0')}M`;
 }
 
-export { getRandomArrayElement, humanizeTaskDueDate, dayjs, getTimePeriod, getDefaultPoint, DateFormat };
+export { getRandomArrayElement, humanizeTaskDueDate, getTimePeriod, getDefaultPoint };
