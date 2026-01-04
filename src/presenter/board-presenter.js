@@ -4,7 +4,7 @@ import { render } from '../framework/render.js';
 import PointPresenter from './point-presenter.js';
 // import { RenderPosition, remove } from '../framework/render.js';
 import ListEmptyView from '../view/list-empty-view.js';
-// import { getDefaultPoint } from '../utils.js';
+// import { getDefaultPoint } from '../utils/utils.js';
 
 export default class BoardPresenter {
 

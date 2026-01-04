@@ -1,13 +1,13 @@
 
 
-import { getTimePeriod, humanizeTaskDueDate} from '../utils/utils.js';
+import { getTimePeriod, humanizeTaskDueDate } from '../utils/utils.js';
 import { DateFormat } from '../consts.js';
 import dayjs from 'dayjs';
 import AbstractView from '../framework/view/abstract-view.js';
 
-function createPointTemplate(point, destinations, offers) {
+function createPointTemplate(point, destinations = [], offers = []) {
   const { basePrice, isFavorite, dateFrom, dateTo, type } = point;
-  const typeOffers = offers.find((offer) => offer.type === point.type).offers;
+  const typeOffers = offers.find((offer) => offer.type === point.type)?.offers || [];
   const pointOffers = typeOffers.filter((typeOffer) => point.offers.includes(typeOffer.id));
   const pointDestination = destinations.find((dest) => point.destination === dest.id);
   const favoriteActiveClass = isFavorite ? ' event__favorite-btn--active' : '';
