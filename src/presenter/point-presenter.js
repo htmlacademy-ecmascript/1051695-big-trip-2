@@ -91,7 +91,6 @@ export default class PointPresenter {
   };
 
   #onRollupBtnPointClick = () => {
-
     this.#onClickFormOpen();
     this.#isOpenEdit = true;
     replace(this.#editPointComponent, this.#pointComponent);
