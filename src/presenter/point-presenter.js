@@ -7,7 +7,7 @@ export default class PointPresenter {
   #editPointComponent = null;
   #pointsContainer = null;
   #point = null;
-  #currentDestinations = null;
+  #currentDestination = null;
   #currentOffers = null;
   #destinations = null;
   #offers = null;
@@ -24,7 +24,7 @@ export default class PointPresenter {
 
   init(point) {
     this.#point = point;
-    this.#currentDestinations = this.#destinations.find((dest) => point.destination === dest.id);
+    this.#currentDestination = this.#destinations.find((dest) => point.destination === dest.id);
     this.#currentOffers = this.#offers.find((offer) => offer.type === point.type)?.offers.filter((typeOffer) => point.offers.includes(typeOffer.id));
 
     const prevPointComponent = this.#pointComponent;
@@ -33,7 +33,7 @@ export default class PointPresenter {
 
     this.#pointComponent = new PointView({
       point: this.#point,
-      destination: this.#currentDestinations,
+      destination: this.#currentDestination,
       offers: this.#currentOffers,
       onRollupBtnClick: this.#onRollupBtnPointClick,
       onFavoriteBtnClick: this.#onToggleFavoriteState,
@@ -41,7 +41,7 @@ export default class PointPresenter {
 
     this.#editPointComponent = new EditPointView({
       point: this.#point,
-      destination: this.#currentDestinations,
+      destination: this.#currentDestination,
       offers: this.#currentOffers,
       onRollupBtnFormClick: this.#onRollupBtnFormClick,
       onSaveBtnClick: this.#onSaveBtnClick
