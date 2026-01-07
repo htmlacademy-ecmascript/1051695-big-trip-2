@@ -26,17 +26,25 @@ function getTimePeriod(start, end) {
     return 'неверные даты';
   }
   if (period < MINUTES_IN_HOUR) {
-    return `${String(period.toFixed()).padStart(2,'0')} M`;
+    return `${String(period.toFixed()).padStart(2, '0')} M`;
   }
   if (period < MINUTES_IN_DAY) {
-    return `${String(~~(period / MINUTES_IN_HOUR)).padStart(2,'0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2,'0')}M`;
+    return `${String(~~(period / MINUTES_IN_HOUR)).padStart(2, '0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2, '0')}M`;
   }
 
-  return `${String(~~(period / MINUTES_IN_DAY)).padStart(2,'0')}D ${String(~~(period % MINUTES_IN_DAY / MINUTES_IN_HOUR)).padStart(2,'0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2,'0')}M`;
+  return `${String(~~(period / MINUTES_IN_DAY)).padStart(2, '0')}D ${String(~~(period % MINUTES_IN_DAY / MINUTES_IN_HOUR)).padStart(2, '0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2, '0')}M`;
 }
 
-function updatePoint (points, updatedPoint) {
-  return points.map((point)=>point.id === updatedPoint.id ? updatedPoint : point);
+function updatePoint(points, updatedPoint) {
+  return points.map((point) => point.id === updatedPoint.id ? updatedPoint : point);
 }
 
-export { getRandomArrayElement, humanizeTaskDueDate, getTimePeriod, getDefaultPoint, updatePoint };
+function sortByPrice(point1, point2) {
+  return point2.basePrice - point1.basePrice;
+}
+
+function sortByTime(point1, point2) {
+  return dayjs(point2.dateTo).diff(dayjs(point2.dateFrom)) - dayjs(point1.dateTo).diff(dayjs(point1.dateFrom));
+}
+
+export { getRandomArrayElement, humanizeTaskDueDate, getTimePeriod, getDefaultPoint, updatePoint, sortByPrice, sortByTime };
