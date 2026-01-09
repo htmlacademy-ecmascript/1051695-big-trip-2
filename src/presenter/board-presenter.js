@@ -80,7 +80,7 @@ export default class BoardPresenter {
   #sortPoints = (sortType) => {
     switch (sortType) {
       case 'default':
-        this.#points.sort(sortByDate);
+        this.#points = [...this.#defaultSortPoints];
         break;
       case 'time':
         this.#points.sort(sortByTime);
