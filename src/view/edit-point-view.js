@@ -3,11 +3,10 @@ import { humanizeTaskDueDate } from '../utils/utils.js';
 import { DateFormat, POINT_TYPES } from '../consts.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
-function createNewPointTemplate(point, destinations, offers = []) {
+function createNewPointTemplate(point, destination, offers = []) {
   const { basePrice, dateFrom, dateTo, type } = point;
-  const typeOffers = offers.find((offer) => offer.type === point.type).offers;
-  const pointOffers = typeOffers.filter((typeOffer) => point.offers.includes(typeOffer.id));
-  const pointDestination = destinations.find((dest) => point.destination === dest.id);
+  const pointOffers = offers;
+  const pointDestination = destination;
   const pointId = point.id || 0;
 
   const createButtonsTemplate = () => {
@@ -97,7 +96,7 @@ function createNewPointTemplate(point, destinations, offers = []) {
             </label>
             <input class="event__input  event__input--destination" id="event-destination-${pointId}" type="text" name="event-destination" value="${destination ? destination.name : ''}" list="destination-list-${pointId}">
             <datalist id="destination-list-${pointId}">
-            ${`<option value="${pointDestination.name}"></option>`}
+            ${`<option value="${destination.name}"></option>`}
             </datalist>
           </div>
 
@@ -130,14 +129,14 @@ function createNewPointTemplate(point, destinations, offers = []) {
 
 export default class EditPointView extends AbstractStatefulView {
   #point = null;
-  #destinations = null;
+  #destination = null;
   #offers = null;
   #handleRollupBtnClick = null;
   #handleFormSubmit = null;
-  constructor({point, destinations, offers, onRollupBtnFormClick, onSaveBtnClick}) {
+  constructor({point, destination, offers, onRollupBtnFormClick, onSaveBtnClick}) {
     super();
     this.#point = point;
-    this.#destinations = destinations;
+    this.#destination = destination;
     this.#offers = offers;
     this.#handleRollupBtnClick = onRollupBtnFormClick;
     this.#handleFormSubmit = onSaveBtnClick;
@@ -150,7 +149,7 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    return createNewPointTemplate(this.#point, this.#destinations, this.#offers);
+    return createNewPointTemplate(this.#point, this.#destination, this.#offers);
   }
 
   #rollupBtnHandler = (evt) => {

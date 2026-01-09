@@ -14,32 +14,35 @@ export default class PointPresenter {
   #onClickFavoriteButton = null;
   #onClickFormOpen = null;
   #isOpenEdit = false;
-  constructor({ pointsContainer, onClickFavoriteButton, onFormOpen,destinations,offers }) {
+  constructor({ pointsContainer, destinations, offers, onClickFavoriteButton, onFormOpen }) {
     this.#pointsContainer = pointsContainer;
-    this.#onClickFavoriteButton = onClickFavoriteButton;
-    this.#onClickFormOpen = onFormOpen;
     this.#destinations = destinations;
     this.#offers = offers;
+    this.#onClickFavoriteButton = onClickFavoriteButton;
+    this.#onClickFormOpen = onFormOpen;
   }
 
   init(point) {
     this.#point = point;
+    this.#currentDestination = this.#destinations.find((dest) => point.destination === dest.id);
+    this.#currentOffers = this.#offers.find((offer) => offer.type === point.type)?.offers.filter((typeOffer) => point.offers.includes(typeOffer.id));
+
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
 
 
     this.#pointComponent = new PointView({
       point: this.#point,
-      destinations: this.#destinations,
-      offers: this.#offers,
+      destination: this.#currentDestination,
+      offers: this.#currentOffers,
       onRollupBtnClick: this.#onRollupBtnPointClick,
       onFavoriteBtnClick: this.#onToggleFavoriteState,
     });
 
     this.#editPointComponent = new EditPointView({
       point: this.#point,
-      destinations: this.#destinations,
-      offers: this.#offers,
+      destination: this.#currentDestination,
+      offers: this.#currentOffers,
       onRollupBtnFormClick: this.#onRollupBtnFormClick,
       onSaveBtnClick: this.#onSaveBtnClick
     });
