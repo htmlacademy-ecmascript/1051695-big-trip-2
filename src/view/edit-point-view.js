@@ -162,7 +162,8 @@ export default class EditPointView extends AbstractStatefulView {
     }
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
-    this.element.querySelector('.event__input--price').addEventListener('input', this.#priceChangeHandler);
+    this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelectorAll('.event__offer-checkbox').forEach((el) => el.addEventListener('change', this.#offerChangeHandler));
   }
 
@@ -185,6 +186,16 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
+  #destinationChangeHandler = (evt) => {
+    evt.preventDefault();
+    const newDestination = this.#destinations.find((dest) => dest.name === evt.target.value);
+    if (newDestination) {
+      this.updateElement({
+        ...this._state,
+        destination: newDestination.id,
+      });
+    }
+  };
 
   #offerChangeHandler = (evt) => {
     const { checked, dataset } = evt.target;
