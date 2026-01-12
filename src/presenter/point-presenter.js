@@ -12,7 +12,7 @@ export default class PointPresenter {
   #onClickFavoriteButton = null;
   #onClickFormOpen = null;
   #isOpenEdit = false;
-  constructor({ pointsContainer, onClickFavoriteButton, onFormOpen,destinations,offers }) {
+  constructor({ pointsContainer, onClickFavoriteButton, onFormOpen, destinations, offers }) {
     this.#pointsContainer = pointsContainer;
     this.#onClickFavoriteButton = onClickFavoriteButton;
     this.#onClickFormOpen = onFormOpen;
@@ -39,7 +39,8 @@ export default class PointPresenter {
       destinations: this.#destinations,
       offers: this.#offers,
       onRollupBtnFormClick: this.#onRollupBtnFormClick,
-      onSaveBtnClick: this.#onSaveBtnClick
+      onSaveBtnClick: this.#onSaveBtnClick,
+      onDeleteBtnClick: this.#onDeleteBtnClick,
     });
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
@@ -98,6 +99,10 @@ export default class PointPresenter {
     replace(this.#pointComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#onEscKeydown);
     this.#isOpenEdit = false;
+  };
+
+  #onDeleteBtnClick = () => {
+    this.destroy();
   };
 
   #onToggleFavoriteState = () => {
