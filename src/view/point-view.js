@@ -5,10 +5,11 @@ import { DateFormat } from '../consts.js';
 import dayjs from 'dayjs';
 import AbstractView from '../framework/view/abstract-view.js';
 
-function createPointTemplate(point, destination, offers = []) {
+function createPointTemplate(point, destinations, offers = []) {
   const { basePrice, isFavorite, dateFrom, dateTo, type } = point;
-  const pointOffers = offers;
-  const pointDestination = destination;
+  const typeOffers = offers.find((offer) => offer.type === point.type)?.offers;
+  const pointOffers = typeOffers.filter((typeOffer) => point.offers.includes(typeOffer.id));
+  const pointDestination = destinations.find((dest) => point.destination === dest.id);
   const favoriteActiveClass = isFavorite ? ' event__favorite-btn--active' : '';
 
   return `<li class="trip-events__item">
@@ -53,15 +54,15 @@ function createPointTemplate(point, destination, offers = []) {
 
 export default class PointView extends AbstractView {
   #point = null;
-  #destination = null;
+  #destinations = null;
   #offers = null;
   #handleRollupBtnClick = null;
   #handleFavoriteBtnClick = null;
 
-  constructor({ point, destination, offers, onRollupBtnClick, onFavoriteBtnClick }) {
+  constructor({ point, destinations, offers, onRollupBtnClick, onFavoriteBtnClick }) {
     super();
     this.#point = point;
-    this.#destination = destination;
+    this.#destinations = destinations;
     this.#offers = offers;
     this.#handleRollupBtnClick = onRollupBtnClick;
     this.#handleFavoriteBtnClick = onFavoriteBtnClick;
@@ -72,7 +73,7 @@ export default class PointView extends AbstractView {
   }
 
   get template() {
-    return createPointTemplate(this.#point, this.#destination, this.#offers);
+    return createPointTemplate(this.#point, this.#destinations, this.#offers);
   }
 
 

@@ -101,4 +101,29 @@ export const offers = [
       },
     ]
   },
+  {
+    type: 'check-in',
+    offers: [
+      {
+        id: 1,
+        title: 'check-in offer 1',
+        price: 320
+      },
+      {
+        id: 2,
+        title: 'check-in offer 2',
+        price: 505
+      },
+      {
+        id: 3,
+        title: 'vcheck-in offer 3',
+        price: 409
+      },
+      {
+        id: 4,
+        title: 'check-in offer 4',
+        price: 235
+      },
+    ]
+  },
 ];
