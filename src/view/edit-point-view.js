@@ -132,7 +132,7 @@ function createNewPointTemplate(point, destinations, offers = []) {
 }
 
 export default class EditPointView extends AbstractStatefulView {
-  #point = null;
+
   #destinations = null;
   #offers = null;
   #handleRollupBtnClick = null;
