@@ -187,8 +187,8 @@ export default class EditPointView extends AbstractStatefulView {
 
   #priceChangeHandler = (evt) => {
     evt.preventDefault();
-    const newPrice = (Number(evt.target.value) >= 0 || isNaN(Number(evt.target.value))) ? Number(evt.target.value) : this._state.basePrice;
-    this.updateElement({
+    const newPrice = Number(evt.target.value) >= 0 ? Number(evt.target.value) : this._state.basePrice;
+    this._setState({
       ...this._state,
       basePrice: newPrice,
     });
@@ -264,7 +264,7 @@ export default class EditPointView extends AbstractStatefulView {
       {
         ...datepickerCommonConfig,
         defaultDate: this._state.dateFrom,
-        onClose: this.#OnDateFromClose,
+        onChange: this.#OnDateFromClose,
         maxDate: this._state.dateTo,
       }
     );
@@ -274,13 +274,13 @@ export default class EditPointView extends AbstractStatefulView {
       {
         ...datepickerCommonConfig,
         defaultDate: this._state.dateTo,
-        onClose: this.#OnDateToClose,
+        onChange: this.#OnDateToClose,
         minDate: this._state.dateFrom,
       }
     );
   };
 
-  #OnDateFromClose = (newStartDate) => {
+  #OnDateFromClose = ([newStartDate]) => {
     this._setState({
       ...this._state,
       dateFrom: newStartDate
@@ -289,7 +289,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.#datepickerTo.set('minDate', newStartDate);
   };
 
-  #OnDateToClose = (newEndDate) => {
+  #OnDateToClose = ([newEndDate]) => {
     this._setState({
       ...this._state,
       dateTo: newEndDate
