@@ -3,6 +3,8 @@ import { humanizeTaskDueDate } from '../utils/utils.js';
 import { DateFormat } from '../consts.js';
 // import { POINT_TYPES } from '../consts.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 function createNewPointTemplate(point, destinations, offers = []) {
   const { basePrice, dateFrom, dateTo, type } = point;
@@ -130,12 +132,14 @@ function createNewPointTemplate(point, destinations, offers = []) {
 }
 
 export default class EditPointView extends AbstractStatefulView {
-  #point = null;
+
   #destinations = null;
   #offers = null;
   #handleRollupBtnClick = null;
   #handleFormSubmit = null;
   #handleDeleteBtnClick = null;
+  #datepickerFrom = null;
+  #datepickerTo = null;
   constructor({ point, destinations, offers, onRollupBtnFormClick, onSaveBtnClick, onDeleteBtnClick }) {
     super();
     this.#destinations = destinations;
@@ -155,6 +159,7 @@ export default class EditPointView extends AbstractStatefulView {
   resetPoint = (point) => this.updateElement(point);
   _restoreHandlers() {
     this.#setHandlers();
+    this.#setDatepickers();
   }
 
   #setHandlers() {
@@ -182,8 +187,8 @@ export default class EditPointView extends AbstractStatefulView {
 
   #priceChangeHandler = (evt) => {
     evt.preventDefault();
-    const newPrice = +evt.target.value;
-    this.updateElement({
+    const newPrice = Number(evt.target.value) >= 0 ? Number(evt.target.value) : this._state.basePrice;
+    this._setState({
       ...this._state,
       basePrice: newPrice,
     });
@@ -204,7 +209,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #offerChangeHandler = (evt) => {
     const { checked, dataset } = evt.target;
-    const offerId = +dataset.offerId;
+    const offerId = Number(dataset.offerId);
     const oldOffers = this._state.offers ?? [];
 
     let newOffers;
@@ -236,6 +241,61 @@ export default class EditPointView extends AbstractStatefulView {
   #deleteBtnClick = (evt) => {
     evt.preventDefault();
     this.#handleDeleteBtnClick();
+  };
+
+  #setDatepickers = () => {
+
+    this.#datepickerFrom?.destroy();
+    this.#datepickerFrom = null;
+    this.#datepickerTo?.destroy();
+    this.#datepickerTo = null;
+
+    const [datepickerFromElement, datepickerToElement] = this.element.querySelectorAll('.event__input--time');
+
+    const datepickerCommonConfig = {
+      'time_24hr': true,
+      enableTime: true,
+      dateFormat: 'd/m/y H:i',
+      locale: { firstDayOfWeek: 1 }
+    };
+
+    this.#datepickerFrom = flatpickr(
+      datepickerFromElement,
+      {
+        ...datepickerCommonConfig,
+        defaultDate: this._state.dateFrom,
+        onChange: this.#OnDateFromClose,
+        maxDate: this._state.dateTo,
+      }
+    );
+
+    this.#datepickerTo = flatpickr(
+      datepickerToElement,
+      {
+        ...datepickerCommonConfig,
+        defaultDate: this._state.dateTo,
+        onChange: this.#OnDateToClose,
+        minDate: this._state.dateFrom,
+      }
+    );
+  };
+
+  #OnDateFromClose = ([newStartDate]) => {
+    this._setState({
+      ...this._state,
+      dateFrom: newStartDate
+    });
+
+    this.#datepickerTo.set('minDate', newStartDate);
+  };
+
+  #OnDateToClose = ([newEndDate]) => {
+    this._setState({
+      ...this._state,
+      dateTo: newEndDate
+    });
+
+    this.#datepickerFrom.set('maxDate', newEndDate);
   };
 
   static parsePointToState = (point) => ({
