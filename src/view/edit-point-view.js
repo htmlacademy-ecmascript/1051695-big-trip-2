@@ -187,7 +187,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #priceChangeHandler = (evt) => {
     evt.preventDefault();
-    const newPrice = Number(evt.target.value) >= 0 ? Number(evt.target.value) : this._state.basePrice;
+    const newPrice = Number(evt.target.value) > 0 ? Number(evt.target.value) : this._state.basePrice;
     this._setState({
       ...this._state,
       basePrice: newPrice,
