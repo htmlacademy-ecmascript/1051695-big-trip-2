@@ -34,7 +34,7 @@ export default class BoardPresenter {
   init() {
     if (this.points.length) {
       render(new SortView({ onSortTypeChange: this.#handleSortTypeChange }), this.#tripEvents, RenderPosition.AFTERBEGIN);
-      this.#renderPoints(this.points, this.#pointsModel.destinations, this.#pointsModel.offers);
+      this.#renderPoints(this.points);
     } else {
       render(new ListEmptyView(), this.#tripEvents);
     }
