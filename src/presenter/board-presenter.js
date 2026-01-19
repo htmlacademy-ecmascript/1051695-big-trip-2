@@ -72,11 +72,11 @@ export default class BoardPresenter {
   }
 
 
-  #renderPoints(points, destinations, offers) {
+  #renderPoints(points) {
     render(this.#pointListView, this.#tripEvents);
 
     for (const point of points) {
-      this.#renderPoint(point, destinations, offers);
+      this.#renderPoint(point, this.#pointsModel.destinations, this.#pointsModel.offers);
     }
   }
 
