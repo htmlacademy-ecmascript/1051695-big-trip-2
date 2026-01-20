@@ -22,7 +22,7 @@ export default class BoardPresenter {
   #filterContainer = null;
   // #defaultSortPoints = [];
 
-  constructor(filterContainer,tripEventsContainer, pointModel) {
+  constructor(filterContainer, tripEventsContainer, pointModel) {
     this.#filterContainer = filterContainer;
     this.#tripEvents = tripEventsContainer;
     this.#pointsModel = pointModel;
@@ -33,7 +33,7 @@ export default class BoardPresenter {
 
   init() {
     if (this.points.length) {
-      render(new SortView({ onSortTypeChange: this.#handleSortTypeChange }), this.#tripEvents, RenderPosition.AFTERBEGIN);
+      this.#renderSort();
       this.#renderPoints(this.points);
     } else {
       render(new ListEmptyView(), this.#tripEvents);
@@ -71,6 +71,9 @@ export default class BoardPresenter {
     return this.#pointsModel.points;
   }
 
+  #renderSort() {
+    render(new SortView({ onSortTypeChange: this.#handleSortTypeChange }), this.#tripEvents, RenderPosition.AFTERBEGIN);
+  }
 
   #renderPoints(points) {
     render(this.#pointListView, this.#tripEvents);
@@ -86,7 +89,7 @@ export default class BoardPresenter {
       destinations: destinations,
       offers: offers,
       pointsContainer: this.#pointListView,
-      onClickFavoriteButton: this.#handlePointChange,
+      onDataChange: this.#handlePointChange,
       onFormOpen: this.#handleFormOpen,
     });
     this.#pointPresenter.set(point.id, pointPresenter);
@@ -95,10 +98,11 @@ export default class BoardPresenter {
 
   #renderFilters() {
     const filters = generateFilter(this.points);
-    render(new FilterView({filters}), this.#filterContainer);
+    render(new FilterView({ filters }), this.#filterContainer);
   }
 
-  #handlePointChange = (updatedPoint) => {
+  #handlePointChange = (actionType, updateType, updatedPoint) => {
+    console.log(actionType, updateType);
     this.#pointPresenter.get(updatedPoint.id).init(updatedPoint);
   };
 
