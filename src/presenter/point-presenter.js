@@ -101,21 +101,22 @@ export default class PointPresenter {
       UserAction.UPDATE_POINT,
       UpdateType.MINOR,
       point);
-    console.log(point);
     replace(this.#pointComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#onEscKeydown);
     this.#isOpenEdit = false;
   };
 
   #onDeleteBtnClick = () => {
-    this.destroy();
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      this.#point);
   };
 
   #onToggleFavoriteState = () => {
-
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
-      UpdateType.MINOR,
+      UpdateType.PATCH,
       { ...this.#point, isFavorite: !this.#point.isFavorite });
   };
 

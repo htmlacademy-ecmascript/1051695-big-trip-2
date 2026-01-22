@@ -22,9 +22,6 @@ function humanizeTaskDueDate(dueDate, dateFormat) {
 
 function getTimePeriod(start, end) {
   const period = dayjs(end).diff(start) / MILISECONDS_IN_MINUTE;
-  if (period < 0) {
-    return 'неверные даты';
-  }
   if (period < MINUTES_IN_HOUR) {
     return `${String(period.toFixed()).padStart(2, '0')} M`;
   }

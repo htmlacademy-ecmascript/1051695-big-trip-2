@@ -8,7 +8,13 @@ function createListEmptyTemplate(message = EmptyMessage.EVERYTHING) {
 
 
 export default class ListEmptyView extends AbstractView {
+  #message = null;
+  constructor(message) {
+    super();
+    this.#message = message;
+  }
+
   get template() {
-    return createListEmptyTemplate();
+    return createListEmptyTemplate(this.#message);
   }
 }
