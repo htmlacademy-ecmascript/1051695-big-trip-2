@@ -64,13 +64,6 @@ export default class BoardPresenter {
         break;
       case UserAction.DELETE_POINT:
         this.#pointsModel.deletePoint(updateType, update);
-        if (this.#pointsModel.points.length === 0) {
-          this.#filterType = FilterType.EVERYTHING;
-          this.#filterModel.setFilter(UpdateType.MINOR, this.#filterType);
-          this.#listEmptyComponent = new ListEmptyView(this.#filterType, this.#tripEvents);
-          render(this.#listEmptyComponent, this.#tripEvents);
-          break;
-        }
         if (this.points.length === 0) {
           this.#listEmptyComponent = new ListEmptyView((this.#filterModel.filter), this.#tripEvents);
           render(this.#listEmptyComponent, this.#tripEvents);
@@ -138,7 +131,7 @@ export default class BoardPresenter {
   }
 
   #renderNewPoint(destinations, offers) {
-    const newId = this.#pointPresenters.size + 1;
+    const newId = Date.now();
     const newPointPresenter = new NewPointPresenter({
       destinations: destinations,
       offers: offers,
