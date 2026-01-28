@@ -10,7 +10,7 @@ function createNewPointTemplate(point, destinations, offers = []) {
   const { basePrice, dateFrom, dateTo, type } = point;
   const typeOffers = offers.find((offer) => offer.type === point.type)?.offers || [];
   const pointOffers = typeOffers.filter((typeOffer) => point.offers.includes(typeOffer.id));
-  const pointDestination = destinations.find((dest) => point.destination === dest.id);
+  const pointDestination = destinations.find((dest) => point.destination === dest.id) || null;
   const pointId = point.id || 0;
 
   const createButtonsTemplate = () => {
@@ -98,7 +98,7 @@ function createNewPointTemplate(point, destinations, offers = []) {
             <label class="event__label  event__type-output" for="event-destination-${pointId}">
               ${type}
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-${pointId}" type="text" name="event-destination" value="${pointDestination ? pointDestination.name : ''}" list="destination-list-${pointId}">
+            <input class="event__input  event__input--destination" id="event-destination-${pointId}" type="text" name="event-destination" value="${pointDestination ? pointDestination?.name : ''}" list="destination-list-${pointId}" required>
             <datalist id="destination-list-${pointId}">
             ${destinations.map((dest) => `<option value="${dest.name}"></option>`).join('')}
             </datalist>
@@ -121,10 +121,10 @@ function createNewPointTemplate(point, destinations, offers = []) {
           </div>
           ${createButtonsTemplate()}
         </header>
-        ${pointDestination?.name && (pointDestination.description || pointOffers.length > 0) ? `
+        ${pointDestination || typeOffers.length > 0 ? `
           <section class="event__details">
-            ${createOffersTemplate(typeOffers)}
-            ${createDestinationTemplate(pointDestination)}
+            ${typeOffers.length > 0 ? createOffersTemplate(typeOffers) : ''}
+            ${pointDestination ? createDestinationTemplate(pointDestination) : ''}
           </section>
         ` : ''}
       </form>
@@ -137,16 +137,16 @@ export default class EditPointView extends AbstractStatefulView {
   #offers = null;
   #handleRollupBtnClick = null;
   #handleFormSubmit = null;
-  #handleDeleteBtnClick = null;
+  #handleResetBtnClick = null;
   #datepickerFrom = null;
   #datepickerTo = null;
-  constructor({ point, destinations, offers, onRollupBtnFormClick, onSaveBtnClick, onDeleteBtnClick }) {
+  constructor({ point, destinations, offers, onRollupBtnFormClick, onFormSubmit, onResetBtnClick }) {
     super();
     this.#destinations = destinations;
     this.#offers = offers;
     this.#handleRollupBtnClick = onRollupBtnFormClick;
-    this.#handleFormSubmit = onSaveBtnClick;
-    this.#handleDeleteBtnClick = onDeleteBtnClick;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleResetBtnClick = onResetBtnClick;
     this._setState(EditPointView.parsePointToState(point));
     this._restoreHandlers();
 
@@ -172,7 +172,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelectorAll('.event__offer-checkbox').forEach((el) => el.addEventListener('change', this.#offerChangeHandler));
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#deleteBtnClick);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#resetBtnClick);
   }
 
   #typeChangeHandler = (evt) => {
@@ -187,7 +187,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #priceChangeHandler = (evt) => {
     evt.preventDefault();
-    const newPrice = Number(evt.target.value) >= 0 ? Number(evt.target.value) : this._state.basePrice;
+    const newPrice = Number(evt.target.value) > 0 ? Number(evt.target.value) : this._state.basePrice;
     this._setState({
       ...this._state,
       basePrice: newPrice,
@@ -203,7 +203,7 @@ export default class EditPointView extends AbstractStatefulView {
         destination: newDestination.id,
       });
     } else {
-      evt.target.value = this.#destinations.find((dest) => dest.id === this._state.destination).name;
+      evt.target.value = this.#destinations.find((dest) => dest.id === this._state.destination)?.name;
     }
   };
 
@@ -234,13 +234,12 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.updateElement(EditPointView.parseStateToPoint(this._state));
-    this.#handleFormSubmit();
+    this.#handleFormSubmit(EditPointView.parseStateToPoint(this._state));
   };
 
-  #deleteBtnClick = (evt) => {
+  #resetBtnClick = (evt) => {
     evt.preventDefault();
-    this.#handleDeleteBtnClick();
+    this.#handleResetBtnClick();
   };
 
   #setDatepickers = () => {

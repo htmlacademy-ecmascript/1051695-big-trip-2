@@ -4,12 +4,12 @@ import { MILISECONDS_IN_MINUTE, MINUTES_IN_DAY, MINUTES_IN_HOUR } from '../const
 
 const getDefaultPoint = () => ({
   basePrice: 0,
-  dateFrom: '',
-  dateTo: '',
-  destination: 0,
+  dateFrom: null,
+  dateTo: null,
+  destination: '',
   isFavorite: false,
   offers: [],
-  type: 'taxi',
+  type: 'flight',
 });
 
 function getRandomArrayElement(items) {
@@ -22,9 +22,6 @@ function humanizeTaskDueDate(dueDate, dateFormat) {
 
 function getTimePeriod(start, end) {
   const period = dayjs(end).diff(start) / MILISECONDS_IN_MINUTE;
-  if (period < 0) {
-    return 'неверные даты';
-  }
   if (period < MINUTES_IN_HOUR) {
     return `${String(period.toFixed()).padStart(2, '0')} M`;
   }

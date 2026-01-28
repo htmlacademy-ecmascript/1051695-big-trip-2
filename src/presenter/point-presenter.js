@@ -1,6 +1,7 @@
 import PointView from '../view/point-view';
 import EditPointView from '../view/edit-point-view';
 import { render, replace, remove } from '../framework/render';
+import { UserAction, UpdateType } from '../consts';
 
 export default class PointPresenter {
   #pointComponent = null;
@@ -9,12 +10,12 @@ export default class PointPresenter {
   #point = null;
   #destinations = null;
   #offers = null;
-  #onClickFavoriteButton = null;
+  #handleDataChange = null;
   #onClickFormOpen = null;
   #isOpenEdit = false;
-  constructor({ pointsContainer, onClickFavoriteButton, onFormOpen, destinations, offers }) {
+  constructor({ pointsContainer, onDataChange, onFormOpen, destinations, offers }) {
     this.#pointsContainer = pointsContainer;
-    this.#onClickFavoriteButton = onClickFavoriteButton;
+    this.#handleDataChange = onDataChange;
     this.#onClickFormOpen = onFormOpen;
     this.#destinations = destinations;
     this.#offers = offers;
@@ -24,7 +25,6 @@ export default class PointPresenter {
     this.#point = point;
     const prevPointComponent = this.#pointComponent;
     const prevEditPointComponent = this.#editPointComponent;
-
 
     this.#pointComponent = new PointView({
       point: this.#point,
@@ -39,8 +39,8 @@ export default class PointPresenter {
       destinations: this.#destinations,
       offers: this.#offers,
       onRollupBtnFormClick: this.#onRollupBtnFormClick,
-      onSaveBtnClick: this.#onSaveBtnClick,
-      onDeleteBtnClick: this.#onDeleteBtnClick,
+      onFormSubmit: this.#formSubmitHandler,
+      onResetBtnClick: this.#onDeleteBtnClick,
     });
 
     if (prevPointComponent === null || prevEditPointComponent === null) {
@@ -95,18 +95,28 @@ export default class PointPresenter {
     document.addEventListener('keydown', this.#onEscKeydown);
   };
 
-  #onSaveBtnClick = () => {
+  #formSubmitHandler = (point) => {
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point);
     replace(this.#pointComponent, this.#editPointComponent);
     document.removeEventListener('keydown', this.#onEscKeydown);
     this.#isOpenEdit = false;
   };
 
   #onDeleteBtnClick = () => {
-    this.destroy();
+    this.#handleDataChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      this.#point);
   };
 
   #onToggleFavoriteState = () => {
-    this.#onClickFavoriteButton({ ...this.#point, isFavorite: !this.#point.isFavorite });
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.PATCH,
+      { ...this.#point, isFavorite: !this.#point.isFavorite });
   };
 
 }
