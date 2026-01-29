@@ -1,6 +1,8 @@
 const MILISECONDS_IN_MINUTE = 60000;
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
+const API_SERVER = 'https://22.objects.htmlacademy.pro/big-trip';
+const TOKEN = 'Basic o0w590ik298812';
 
 const DateFormat = {
   monthDay: 'MMM D',
@@ -44,6 +46,8 @@ const UpdateType = {
   PATCH: 'patch',
   MINOR: 'minor',
   MAJOR: 'major',
+  INIT: 'init'
 };
 
-export {MILISECONDS_IN_MINUTE, MINUTES_IN_HOUR, MINUTES_IN_DAY, DateFormat, POINT_TYPES, EmptyMessage, SortType, FilterType, UserAction, UpdateType};
+
+export {MILISECONDS_IN_MINUTE, MINUTES_IN_HOUR, MINUTES_IN_DAY, DateFormat, POINT_TYPES, EmptyMessage, SortType, FilterType, UserAction, UpdateType, API_SERVER, TOKEN};

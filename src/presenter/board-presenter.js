@@ -87,6 +87,10 @@ export default class BoardPresenter {
         this.#renderPoints(this.points, this.#pointsModel.destinations, this.#pointsModel.offers);
         this.#handleSortTypeChange();
         break;
+      case UpdateType.INIT:
+        remove(this.#listEmptyComponent);
+        this.#renderSort();
+        this.#renderPoints(this.points);
     }
   };
 

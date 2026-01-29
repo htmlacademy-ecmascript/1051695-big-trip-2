@@ -55,7 +55,6 @@ export default class NewPointPresenter {
     this.#onClickFormOpen();
     this.#newPointButton.disabled = false;
     document.removeEventListener('keydown', this.#onEscKeydown);
-
   };
 
   #onCancelBtnClick = () => {

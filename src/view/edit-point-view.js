@@ -209,7 +209,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #offerChangeHandler = (evt) => {
     const { checked, dataset } = evt.target;
-    const offerId = Number(dataset.offerId);
+    const offerId = dataset.offerId;
     const oldOffers = this._state.offers ?? [];
 
     let newOffers;
