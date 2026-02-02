@@ -1,7 +1,6 @@
 
 import { humanizeTaskDueDate } from '../utils/utils.js';
 import { DateFormat } from '../consts.js';
-// import { POINT_TYPES } from '../consts.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
@@ -94,12 +93,6 @@ function createNewPointTemplate(point, destinations, offers = []) {
                     <input id="event-type-${offer.type}-${pointId}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${offer.type === point.type ? 'checked' : ''}>
                     <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${pointId}">${offer.type.charAt(0).toUpperCase() + offer.type.slice(1)}</label>
                   </div>`)).join('')}
-
-                ${/*(POINT_TYPES.map((el) => `
-                  <div class="event__type-${el}">
-                    <input id="event-type-${el}-${pointId}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${el}" ${el === point.type ? 'checked' : ''}>
-                    <label class="event__type-label  event__type-label--${el}" for="event-type-${el}-${pointId}" >${el.slice(0, 1).toUpperCase() + el.slice(1)}</label>
-                  </div>`)).join('')*/''}
               </fieldset>
               </fieldset>
             </div>

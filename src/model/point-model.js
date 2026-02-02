@@ -1,6 +1,4 @@
-// import { points } from '../mocks/points';
-// import { destinations } from '../mocks/destinations';
-// import { offers } from '../mocks/offers';
+
 import Observable from '../framework/observable';
 import { UpdateType } from '../consts';
 export default class PointModel extends Observable {
@@ -11,9 +9,6 @@ export default class PointModel extends Observable {
   constructor(pointsApiService) {
     super();
     this.#pointsApiService = pointsApiService;
-    // this.#points = points;
-    // this.#destinations = destinations;
-    // this.#offers = offers;
   }
 
 
