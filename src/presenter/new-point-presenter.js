@@ -11,13 +11,15 @@ export default class NewPointPresenter {
   #handleDataChange = null;
   #newPointButton = null;
   #point = getDefaultPoint();
+  #cancelHandler = null;
 
-  constructor({ pointsContainer, onDataChange, destinations, offers, newPointButton }) {
+  constructor({ pointsContainer, onDataChange, destinations, offers, newPointButton, cancelHandler }) {
     this.#pointsContainer = pointsContainer;
     this.#handleDataChange = onDataChange;
     this.#destinations = destinations;
     this.#offers = offers;
     this.#newPointButton = newPointButton;
+    this.#cancelHandler = cancelHandler;
   }
 
   init() {
@@ -73,6 +75,7 @@ export default class NewPointPresenter {
 
   #onCancelBtnClick = () => {
     remove(this.#newPointComponent);
+    this.#cancelHandler();
     this.#newPointButton.disabled = false;
     document.removeEventListener('keydown', this.#onEscKeydown);
   };
@@ -81,6 +84,7 @@ export default class NewPointPresenter {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       remove(this.#newPointComponent);
+      this.#cancelHandler();
       this.#newPointButton.disabled = false;
       document.removeEventListener('keydown', this.#onEscKeydown);
     }

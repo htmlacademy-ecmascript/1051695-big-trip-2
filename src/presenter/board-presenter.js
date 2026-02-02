@@ -197,6 +197,7 @@ export default class BoardPresenter {
       pointsContainer: this.#pointListView,
       onDataChange: this.#handleViewAction,
       newPointButton: this.#newPointButton,
+      cancelHandler: this.#handleNewPointFormClose,
     });
 
     this.#pointPresenters.set(newId, this.#newPointPresenter);
@@ -230,5 +231,13 @@ export default class BoardPresenter {
     remove(this.#listEmptyComponent);
     this.#renderNewPoint(this.#pointsModel.destinations, this.#pointsModel.offers);
     this.#newPointButton.disabled = true;
+  };
+
+  #handleNewPointFormClose = () => {
+    this.#newPointButton.disabled = false;
+    if (this.points.length === 0) {
+      this.#pointListView.element.replaceChildren();
+      render(this.#listEmptyComponent, this.#tripEvents);
+    }
   };
 }
