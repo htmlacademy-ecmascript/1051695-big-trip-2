@@ -24,6 +24,7 @@ export default class BoardPresenter {
   #sortComponent = null;
   #isLoading = true;
   #newPointPresenter = null;
+
   #loadingFailComponent = new LoadingFailView();
   #uiBlocker = new UiBlocker({
     lowerLimit: TimeLimit.LOWER_LIMIT,
@@ -37,7 +38,7 @@ export default class BoardPresenter {
     this.#newPointButton = newPointButton;
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
-    this.#listEmptyComponent = new ListEmptyView((this.#filterModel.filter), this.#isLoading);
+    this.#listEmptyComponent = null;
     this.#sortComponent = new SortView({ onSortTypeChange: this.#handleSortTypeChange });
     this.#newPointButton.addEventListener('click', this.#newPointButtonHandler);
   }
@@ -128,7 +129,9 @@ export default class BoardPresenter {
         break;
       case UpdateType.ERROR:
         this.#isLoading = false;
-        replace(this.#loadingFailComponent, remove(this.#listEmptyComponent));
+        replace(this.#loadingFailComponent, this.#listEmptyComponent);
+        replace(this.#loadingFailComponent, this.#listEmptyComponent);
+        remove(this.#listEmptyComponent);
         break;
     }
   };
@@ -166,8 +169,8 @@ export default class BoardPresenter {
   #renderPoints(points) {
     this.#newPointButton.disabled = false;
     if (!points.length) {
-      this.#filterType = FilterType.EVERYTHING;
-      this.#listEmptyComponent = new ListEmptyView(this.#filterModel.filter);
+      this.#renderEmptyList();
+      remove(this.#sortComponent);
       render(this.#listEmptyComponent, this.#tripEvents);
     }
     render(this.#pointListView, this.#tripEvents);
