@@ -72,10 +72,12 @@ export default class PointPresenter {
   }
 
   setSaving() {
-    this.#editPointComponent.updateElement({
-      isDisabled: true,
-      isSaving: true,
-    });
+    if (this.#isOpenEdit) {
+      this.#editPointComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
   }
 
   setDeleting() {
@@ -136,7 +138,6 @@ export default class PointPresenter {
       UpdateType.MINOR,
       point);
     document.removeEventListener('keydown', this.#onEscKeydown);
-    this.#isOpenEdit = false;
   };
 
   #onDeleteBtnClick = () => {
