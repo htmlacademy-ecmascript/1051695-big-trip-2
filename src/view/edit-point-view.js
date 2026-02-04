@@ -37,6 +37,18 @@ function createNewPointTemplate(point, destinations, offers = []) {
       </button>`;
   };
 
+  const createPhotosContainer = (dest) => {
+    if (!dest.pictures || dest.pictures.length <= 0) {
+      return ('');
+    }
+    return `
+        <div class="event__photos-container">
+          <div class="event__photos-tape">
+          ${dest.pictures?.map((pic) => `<img class="event__photo" src="${pic.src}" alt="${pic.description}">`).join('')}
+          </div>
+        </div>`;
+  };
+
   const createDestinationTemplate = (dest) => {
     if (!dest || dest.id === 0 || dest.description === '' || !dest.description) {
       return ('');
@@ -46,11 +58,7 @@ function createNewPointTemplate(point, destinations, offers = []) {
       <section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">${dest.description}</p>
-        <div class="event__photos-container">
-          <div class="event__photos-tape">
-          ${dest.pictures?.map((pic) => `<img class="event__photo" src="${pic.src}" alt="${pic.description}">`).join('')}
-          </div>
-        </div>
+      ${createPhotosContainer(dest)}
       </section>`;
 
   };
