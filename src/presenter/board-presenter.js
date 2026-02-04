@@ -11,7 +11,6 @@ import NewPointPresenter from './new-point-presenter.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 
 export default class BoardPresenter {
-
   #pointListView = new PointListView();
   #tripEvents = null;
   #filterModel = null;
