@@ -19,7 +19,7 @@ function humanizeTaskDueDate(dueDate, dateFormat) {
 function getTimePeriod(start, end) {
   const period = dayjs(end).diff(start) / MILISECONDS_IN_MINUTE;
   if (period < MINUTES_IN_HOUR) {
-    return `${String(period.toFixed()).padStart(2, '0')} M`;
+    return `${String(period.toFixed()).padStart(2, '0')}M`;
   }
   if (period < MINUTES_IN_DAY) {
     return `${String(~~(period / MINUTES_IN_HOUR)).padStart(2, '0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2, '0')}M`;
