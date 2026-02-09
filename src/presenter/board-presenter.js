@@ -23,6 +23,7 @@ export default class BoardPresenter {
   #sortComponent = null;
   #isLoading = true;
   #newPointPresenter = null;
+  #documentListener = null;
 
   #loadingFailComponent = new LoadingFailView();
   #uiBlocker = new UiBlocker({
@@ -75,7 +76,9 @@ export default class BoardPresenter {
       case UserAction.UPDATE_POINT:
         this.#pointPresenters.get(update.id).setSaving();
         try {
+          this.#documentListener = this.#pointPresenters.get(update.id).onEscKeydown;
           await this.#pointsModel.updatePoint(updateType, update);
+          document.removeEventListener('keydown', this.#documentListener);
         } catch (err) {
           this.#pointPresenters.get(update.id).setResetting();
         }
@@ -83,7 +86,9 @@ export default class BoardPresenter {
       case UserAction.ADD_POINT:
         this.#newPointPresenter.setSaving();
         try {
+          this.#documentListener = this.#newPointPresenter.onEscKeydown;
           await this.#pointsModel.addPoint(updateType, update);
+          document.removeEventListener('keydown', this.#documentListener);
           this.#newPointPresenter.destroy();
         } catch (err) {
           this.#newPointPresenter.setResetting();
@@ -92,7 +97,9 @@ export default class BoardPresenter {
       case UserAction.DELETE_POINT:
         this.#pointPresenters.get(update.id).setDeleting();
         try {
+          this.#documentListener = this.#pointPresenters.get(update.id).onEscKeydown;
           await this.#pointsModel.deletePoint(updateType, update);
+          document.removeEventListener('keydown', this.#documentListener);
           if (this.points.length === 0) {
             remove(this.#sortComponent);
             render(this.#listEmptyComponent, this.#tripEvents);
