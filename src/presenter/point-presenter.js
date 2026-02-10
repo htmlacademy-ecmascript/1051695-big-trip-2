@@ -72,6 +72,7 @@ export default class PointPresenter {
   }
 
   setSaving() {
+    document.removeEventListener('keydown', this.#onEscKeydown);
     if (this.#isOpenEdit) {
       this.#editPointComponent.updateElement({
         isDisabled: true,
@@ -81,6 +82,7 @@ export default class PointPresenter {
   }
 
   setDeleting() {
+    document.removeEventListener('keydown', this.#onEscKeydown);
     if (this.#isOpenEdit) {
       this.#editPointComponent.updateElement({
         isDisabled: true,
@@ -98,30 +100,33 @@ export default class PointPresenter {
     }
 
     const reset = () => {
+
       this.#editPointComponent.updateElement({
         isDisabled: false,
         isSaving: false,
         isDeleting: false,
       });
+      document.addEventListener('keydown', this.#onEscKeydown);
     };
 
     this.#editPointComponent.shake(reset);
+
   }
 
-  onEscKeydown = (evt) => {
+  #onEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#editPointComponent.resetPoint(this.#point);
       replace(this.#pointComponent, this.#editPointComponent);
       this.#isOpenEdit = false;
-      document.removeEventListener('keydown', this.onEscKeydown);
+      document.removeEventListener('keydown', this.#onEscKeydown);
     }
   };
 
   #onRollupBtnFormClick = () => {
     this.#editPointComponent.resetPoint(this.#point);
     replace(this.#pointComponent, this.#editPointComponent);
-    document.removeEventListener('keydown', this.onEscKeydown);
+    document.removeEventListener('keydown', this.#onEscKeydown);
     this.#isOpenEdit = false;
   };
 
@@ -129,7 +134,7 @@ export default class PointPresenter {
     this.#onClickFormOpen();
     this.#isOpenEdit = true;
     replace(this.#editPointComponent, this.#pointComponent);
-    document.addEventListener('keydown', this.onEscKeydown);
+    document.addEventListener('keydown', this.#onEscKeydown);
   };
 
   #formSubmitHandler = (point) => {
