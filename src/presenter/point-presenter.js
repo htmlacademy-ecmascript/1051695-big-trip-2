@@ -72,7 +72,7 @@ export default class PointPresenter {
   }
 
   setSaving() {
-    document.removeEventListener('keydown', this.#onEscKeydown);
+    document.removeEventListener('keydown', this.#documentEscKeydownHandler);
     if (this.#isOpenEdit) {
       this.#editPointComponent.updateElement({
         isDisabled: true,
@@ -82,7 +82,7 @@ export default class PointPresenter {
   }
 
   setDeleting() {
-    document.removeEventListener('keydown', this.#onEscKeydown);
+    document.removeEventListener('keydown', this.#documentEscKeydownHandler);
     if (this.#isOpenEdit) {
       this.#editPointComponent.updateElement({
         isDisabled: true,
@@ -106,27 +106,27 @@ export default class PointPresenter {
         isSaving: false,
         isDeleting: false,
       });
-      document.addEventListener('keydown', this.#onEscKeydown);
+      document.addEventListener('keydown', this.#documentEscKeydownHandler);
     };
 
     this.#editPointComponent.shake(reset);
 
   }
 
-  #onEscKeydown = (evt) => {
+  #documentEscKeydownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#editPointComponent.resetPoint(this.#point);
       replace(this.#pointComponent, this.#editPointComponent);
       this.#isOpenEdit = false;
-      document.removeEventListener('keydown', this.#onEscKeydown);
+      document.removeEventListener('keydown', this.#documentEscKeydownHandler);
     }
   };
 
   #onRollupBtnFormClick = () => {
     this.#editPointComponent.resetPoint(this.#point);
     replace(this.#pointComponent, this.#editPointComponent);
-    document.removeEventListener('keydown', this.#onEscKeydown);
+    document.removeEventListener('keydown', this.#documentEscKeydownHandler);
     this.#isOpenEdit = false;
   };
 
@@ -134,7 +134,7 @@ export default class PointPresenter {
     this.#onClickFormOpen();
     this.#isOpenEdit = true;
     replace(this.#editPointComponent, this.#pointComponent);
-    document.addEventListener('keydown', this.#onEscKeydown);
+    document.addEventListener('keydown', this.#documentEscKeydownHandler);
   };
 
   #formSubmitHandler = (point) => {

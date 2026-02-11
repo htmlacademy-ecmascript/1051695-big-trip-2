@@ -32,7 +32,7 @@ export default class NewPointPresenter {
     });
 
     render(this.#newPointComponent, this.#pointsContainer.element, RenderPosition.AFTERBEGIN);
-    document.addEventListener('keydown', this.#onEscKeydown);
+    document.addEventListener('keydown', this.#documentEscKeydownHandler);
   }
 
   destroy() {
@@ -45,7 +45,7 @@ export default class NewPointPresenter {
   }
 
   setSaving() {
-    document.removeEventListener('keydown', this.#onEscKeydown);
+    document.removeEventListener('keydown', this.#documentEscKeydownHandler);
     this.#newPointComponent.updateElement({
       isDisabled: true,
       isSaving: true,
@@ -53,25 +53,25 @@ export default class NewPointPresenter {
   }
 
   setResetting() {
-    document.removeEventListener('keydown', this.#onEscKeydown);
+    document.removeEventListener('keydown', this.#documentEscKeydownHandler);
     const resetFormState = () => {
       this.#newPointComponent.updateElement({
         isDisabled: false,
         isSaving: false,
         isDeleting: false,
       });
-      document.addEventListener('keydown', this.#onEscKeydown);
+      document.addEventListener('keydown', this.#documentEscKeydownHandler);
     };
     this.#newPointComponent.shake(resetFormState);
   }
 
-  #onEscKeydown = (evt) => {
+  #documentEscKeydownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       remove(this.#newPointComponent);
       this.#cancelHandler();
       this.#newPointButton.disabled = false;
-      document.removeEventListener('keydown', this.#onEscKeydown);
+      document.removeEventListener('keydown', this.#documentEscKeydownHandler);
     }
   };
 
@@ -87,6 +87,6 @@ export default class NewPointPresenter {
     remove(this.#newPointComponent);
     this.#cancelHandler();
     this.#newPointButton.disabled = false;
-    document.removeEventListener('keydown', this.#onEscKeydown);
+    document.removeEventListener('keydown', this.#documentEscKeydownHandler);
   };
 }
