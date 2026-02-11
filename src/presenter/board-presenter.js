@@ -23,7 +23,6 @@ export default class BoardPresenter {
   #sortComponent = null;
   #isLoading = true;
   #newPointPresenter = null;
-  #documentListener = null;
 
   #loadingFailComponent = new LoadingFailView();
   #uiBlocker = new UiBlocker({
