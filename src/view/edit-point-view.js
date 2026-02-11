@@ -176,14 +176,14 @@ export default class EditPointView extends AbstractStatefulView {
   #setHandlers() {
     if (this.element.querySelector('.event__rollup-btn')) {
       this.element.querySelector('.event__rollup-btn')
-        .addEventListener('click', this.#rollupBtnHandler);
+        .addEventListener('click', this.#rollupBtnClickHandler);
     }
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelectorAll('.event__offer-checkbox').forEach((el) => el.addEventListener('change', this.#offerChangeHandler));
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#resetBtnClick);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#resetBtnClickHandler);
   }
 
   #typeChangeHandler = (evt) => {
@@ -241,7 +241,7 @@ export default class EditPointView extends AbstractStatefulView {
   };
 
 
-  #rollupBtnHandler = (evt) => {
+  #rollupBtnClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleRollupBtnClick();
   };
@@ -251,7 +251,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.#handleFormSubmit(EditPointView.parseStateToPoint(this._state));
   };
 
-  #resetBtnClick = (evt) => {
+  #resetBtnClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleResetBtnClick();
   };

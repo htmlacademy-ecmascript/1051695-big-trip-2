@@ -40,7 +40,7 @@ export default class BoardPresenter {
     this.#filterModel.addObserver(this.#handleModelEvent);
     this.#listEmptyComponent = null;
     this.#sortComponent = new SortView({ onSortTypeChange: this.#handleSortTypeChange });
-    this.#newPointButton.addEventListener('click', this.#newPointButtonHandler);
+    this.#newPointButton.addEventListener('click', this.#newPointBtnClickHandler);
   }
 
   get points() {
@@ -225,7 +225,7 @@ export default class BoardPresenter {
     }
   };
 
-  #newPointButtonHandler = () => {
+  #newPointBtnClickHandler = () => {
     this.#currentSortType = SortType.DEFAULT;
     this.#changeSort();
     this.#filterType = FilterType.EVERYTHING;

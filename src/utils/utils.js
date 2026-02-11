@@ -28,9 +28,4 @@ function getTimePeriod(start, end) {
   return `${String(~~(period / MINUTES_IN_DAY)).padStart(2, '0')}D ${String(~~(period % MINUTES_IN_DAY / MINUTES_IN_HOUR)).padStart(2, '0')}H ${String(Math.ceil((period % MINUTES_IN_HOUR))).padStart(2, '0')}M`;
 }
 
-function updatePoint(points, updatedPoint) {
-  return points.map((point) => point.id === updatedPoint.id ? updatedPoint : point);
-}
-
-
-export { humanizeTaskDueDate, getTimePeriod, getDefaultPoint, updatePoint };
+export { humanizeTaskDueDate, getTimePeriod, getDefaultPoint};
